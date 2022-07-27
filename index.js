@@ -21,7 +21,7 @@ app.get("/api/:date", (req, res) => {
 
   if (!Date.parse(date) && !Number(date)) {
     res.json({ error: "Invalid Date" });
-  } else if (!/[-]/.test(req.params.date) && Number(req.params.date)) {
+  } else if (!/[-]/.test(date) && Number(date)) {
     let dateE = new Date(Number(date));
 
     res.json({
