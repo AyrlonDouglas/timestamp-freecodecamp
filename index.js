@@ -31,8 +31,8 @@ app.get("/api/:date_strinng?", (req, res) => {
   const date = new Date(timeStamp || date_strinng || Date.now());
   if (!date_strinng) {
     return res.json({
-      unix: new Date().getTime(),
-      utc: new Date().toUTCString(),
+      unix: parseInt(new Date().getTime()),
+      utc: new Date().toUTCString().toString(),
     });
   } else if (!isNaN(date)) {
     res.json({ error: "Invalid Date" });
