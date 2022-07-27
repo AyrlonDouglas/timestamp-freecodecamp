@@ -33,14 +33,19 @@ app.get("/api/:date_string?", (req, res) => {
       utc: new Date().toUTCString(),
     });
   }
-
   // console.log(Date.parse(date_string));
 
   if (!Date.parse(date_string) && !Number(date_string)) {
     return res.json({ error: "Invalid Date" });
   }
+  let integerReg = /^\d+$/;
 
-  if (isNaN(Date.parse(date_string))) {
+  if (date_string.includes("-")) {
+    return res.json({
+      unix: new Date(date_string).getTime(),
+      utc: new Date(date_string).toUTCString(),
+    });
+  } else if (integerReg.test(date)) {
     return res.json({
       unix: new Date(parseInt(date_string)).getTime(),
       utc: new Date(parseInt(date_string)).toUTCString(),
@@ -51,6 +56,18 @@ app.get("/api/:date_string?", (req, res) => {
       utc: new Date(date_string).toUTCString(),
     });
   }
+
+  // if (isNaN(Date.parse(date_string))) {
+  //   return res.json({
+  //     unix: new Date(parseInt(date_string)).getTime(),
+  //     utc: new Date(parseInt(date_string)).toUTCString(),
+  //   });
+  // } else {
+  //   return res.json({
+  //     unix: new Date(date_string).getTime(),
+  //     utc: new Date(date_string).toUTCString(),
+  //   });
+  // }
 
   // if (
   //   // date_string.includes("-")
