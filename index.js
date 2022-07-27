@@ -24,34 +24,29 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api/:date?", (req, res) => {
-  const { date } = req.params;
+app.get("/api/:date_string?", (req, res) => {
+  const { date_string } = req.params;
 
-  // console.log(date.includes("-"));
-
-  // console.log(new Date("02-02-2022").toUTCString());
-  // console.log(new Date(1643770800000).toUTCString());
-
-  if (!date) {
+  if (!date_string) {
     return res.json({
       unix: new Date().getTime(),
       utc: new Date().toUTCString(),
     });
   }
 
-  if (!Date.parse(date) && !Number(date)) {
+  if (!Date.parse(date_string) && !Number(date_string)) {
     return res.json({ error: "Invalid Date" });
   }
 
-  if (date.includes("-")) {
+  if (date_string.includes("-")) {
     return res.json({
-      unix: new Date(date).getTime(),
-      utc: new Date(date).toUTCString(),
+      unix: new Date(date_string).getTime(),
+      utc: new Date(date_string).toUTCString(),
     });
   } else {
     return res.json({
-      unix: new Date(parseInt(date)).getTime(),
-      utc: new Date(parseInt(date)).toUTCString(),
+      unix: new Date(parseInt(date_string)).getTime(),
+      utc: new Date(parseInt(date_string)).toUTCString(),
     });
   }
 });
