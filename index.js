@@ -38,7 +38,10 @@ app.get("/api/:date_string?", (req, res) => {
     return res.json({ error: "Invalid Date" });
   }
 
-  if (date_string.includes("-")) {
+  if (
+    // date_string.includes("-")
+    parseInt(date_string) < 10000
+  ) {
     return res.json({
       unix: new Date(date_string).getTime(),
       utc: new Date(date_string).toUTCString(),
