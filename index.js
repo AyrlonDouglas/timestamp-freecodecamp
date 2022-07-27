@@ -1,41 +1,32 @@
-require("dotenv").config();
+// index.js
+// where your node app starts
 
-const express = require("express");
-const logs = require("./src/helpers/Logs");
-const app = express();
+// init project
+var express = require('express');
+var app = express();
 
-app.use(express.json());
-app.use(express.static(__dirname + "/src/public"));
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/src/views/index.html");
+// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+// so that your API is remotely testable by FCC 
+var cors = require('cors');
+app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
+
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + '/views/index.html');
 });
-app.get("/api", (req, res) => {
-  let date = new Date();
-  const utc = date.toUTCString();
-  const unix = date.getTime();
 
-  res.json({ unix, utc });
+
+// your first API endpoint... 
+app.get("/api/hello", function (req, res) {
+  res.json({greeting: 'hello API'});
 });
 
-app.get("/api/:date", (req, res) => {
-  const { date } = req.params;
 
-  if (!Date.parse(date) && !Number(date)) {
-    res.json({ error: "Invalid Date" });
-  } else if (!/[-]/.test(date) && Number(date)) {
-    let dateE = new Date(Number(date));
 
-    res.json({
-      unix: dateE.getTime(),
-      utc: dateE.toUTCString(),
-    });
-  } else {
-    let dateE = new Date(date);
-    res.json({
-      utc: dateE.toUTCString(),
-      unix: dateE.getTime(),
-    });
-  }
+// listen for requests :)
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
-const port = process.env.PORT;
-app.listen(port, () => logs.success("Aplicação iniciada na porta " + port));
