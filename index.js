@@ -34,30 +34,44 @@ app.get("/api/:date_string?", (req, res) => {
     });
   }
 
+  // console.log(Date.parse(date_string));
+
   if (!Date.parse(date_string) && !Number(date_string)) {
     return res.json({ error: "Invalid Date" });
   }
 
-  if (
-    // date_string.includes("-")
-    parseInt(date_string) < 10000
-  ) {
-    return res.json({
-      unix: new Date(date_string).getTime(),
-      utc: new Date(date_string).toUTCString(),
-    });
-  } else {
+  if (isNaN(Date.parse(date_string))) {
     return res.json({
       unix: new Date(parseInt(date_string)).getTime(),
       utc: new Date(parseInt(date_string)).toUTCString(),
     });
+  } else {
+    return res.json({
+      unix: new Date(date_string).getTime(),
+      utc: new Date(date_string).toUTCString(),
+    });
   }
+
+  // if (
+  //   // date_string.includes("-")
+  //   parseInt(date_string) < 10000
+  // ) {
+  //   return res.json({
+  //     unix: new Date(date_string).getTime(),
+  //     utc: new Date(date_string).toUTCString(),
+  //   });
+  // } else {
+  //   return res.json({
+  //     unix: new Date(parseInt(date_string)).getTime(),
+  //     utc: new Date(parseInt(date_string)).toUTCString(),
+  //   });
+  // }
 });
 
 // listen for requests :)
 let listener = app.listen(
-  // 5000,
-  process.env.PORT,
+  5000,
+  // process.env.PORT,
   function () {
     console.log("Your app is listening on port " + listener.address().port);
   }
