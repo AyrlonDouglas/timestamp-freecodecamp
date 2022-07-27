@@ -14,8 +14,9 @@ app.get("/api", (req, res) => {
   const utc = date.toUTCString();
   const unix = date.getTime();
 
-  res.json({ utc, unix });
+  res.json({ unix, utc });
 });
+
 app.get("/api/:date", (req, res) => {
   const { date } = req.params;
 
@@ -25,14 +26,14 @@ app.get("/api/:date", (req, res) => {
     let dateE = new Date(Number(date));
 
     res.json({
-      utc: dateE.toUTCString(),
       unix: dateE.getTime(),
+      utc: dateE.toUTCString(),
     });
   } else {
     let dateE = new Date(date);
     res.json({
-      unix: dateE.getTime(),
       utc: dateE.toUTCString(),
+      unix: dateE.getTime(),
     });
   }
 });
