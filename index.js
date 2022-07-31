@@ -50,21 +50,6 @@ app.get("/api/:date_string?", (req, res) => {
       utc: new Date(date_string).toUTCString(),
     });
   }
-
-  // if (
-  //   // date_string.includes("-")
-  //   parseInt(date_string) < 10000
-  // ) {
-  //   return res.json({
-  //     unix: new Date(date_string).getTime(),
-  //     utc: new Date(date_string).toUTCString(),
-  //   });
-  // } else {
-  //   return res.json({
-  //     unix: new Date(parseInt(date_string)).getTime(),
-  //     utc: new Date(parseInt(date_string)).toUTCString(),
-  //   });
-  // }
 });
 
 // listen for requests :)
